@@ -38,6 +38,7 @@ class _CitySearchState extends ConsumerState<CitySearch> {
     final isSearching = ref.watch(isSearchingCity);
     return Center(
       child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+        const Text("Ville par défaut : Paris"),
         const SizedBox(height: 20),
         TextField(
           controller: _cityController,
@@ -82,6 +83,13 @@ class _CitySearchState extends ConsumerState<CitySearch> {
                 ),
               )
             : Container(),
+        TextButton(
+            onPressed: () async {
+              List position = await getUserPosition(context);
+              ref.watch(finalCityGeoProvider.notifier).state = position;
+            },
+            child: const Text("Use your position")),
+        Text(ref.watch(finalCityGeoProvider).toString())
       ]),
     );
   }
