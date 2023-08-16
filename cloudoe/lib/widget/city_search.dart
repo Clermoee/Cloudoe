@@ -5,7 +5,6 @@ import 'package:cloudoe/data/queries.dart';
 import 'package:cloudoe/provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:http/http.dart';
 
 class CitySearch extends ConsumerStatefulWidget {
   const CitySearch({super.key});
@@ -38,7 +37,7 @@ class _CitySearchState extends ConsumerState<CitySearch> {
     final isSearching = ref.watch(isSearchingCity);
     return Center(
       child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-        const Text("Ville par défaut : Paris"),
+        Text(ref.watch(finalCityNameProvider)),
         const SizedBox(height: 20),
         TextField(
           controller: _cityController,
@@ -88,8 +87,8 @@ class _CitySearchState extends ConsumerState<CitySearch> {
               List position = await getUserPosition(context);
               ref.watch(finalCityGeoProvider.notifier).state = position;
             },
-            child: const Text("Use your position")),
-        Text(ref.watch(finalCityGeoProvider).toString())
+            child: const Text("Votre position")),
+        Text("Coordonnées : ${ref.watch(finalCityGeoProvider).toString()}")
       ]),
     );
   }

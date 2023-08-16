@@ -6,14 +6,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
-class DataTempListWidget extends ConsumerStatefulWidget {
-  const DataTempListWidget({super.key});
+class DataGeneralWidget extends ConsumerStatefulWidget {
+  const DataGeneralWidget({super.key});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _DataListWidgetState();
 }
 
-class _DataListWidgetState extends ConsumerState<DataTempListWidget> {
+class _DataListWidgetState extends ConsumerState<DataGeneralWidget> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
@@ -32,7 +32,7 @@ class _DataListWidgetState extends ConsumerState<DataTempListWidget> {
                   final currentDayName =
                       DateFormat('EEEE d', 'fr_FR').format(DateTime.now());
                   final tommorowDay = DateFormat('EEEE d', 'fr_FR')
-                      .format(DateTime.now().add(Duration(days: 1)));
+                      .format(DateTime.now().add(const Duration(days: 1)));
                   final dayName = DateFormat('EEEE d', 'fr_FR')
                       .format(ref.watch(next7Days)[index]);
                   return SizedBox(
@@ -52,27 +52,16 @@ class _DataListWidgetState extends ConsumerState<DataTempListWidget> {
                                 : "AUJOURD'HUI",
                             style: dayTitle),
                         Container(
-                          margin: const EdgeInsets.all(10),
-                          width: 100,
-                          height: 100,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              color: Colors.black45),
-                          child: Image.asset(data
-                                      .daily!.temperature2mMin![index] >
-                                  35
-                              ? "assets/images/Very_Hot_.png"
-                              : data.daily!.temperature2mMin![index] > 24
-                                  ? "assets/images/Hot_.png"
-                                  : data.daily!.temperature2mMin![index] <= 24
-                                      ? "assets/images/Cold_.png"
-                                      : data.daily!.temperature2mMin![index] <=
-                                              16
-                                          ? "assets/images/Very_Cold_.png"
-                                          : "assets/images/Very_Cold_.png"),
-                        ),
-                        Text('Min : ${data.daily!.temperature2mMin![index]}ºC'),
-                        Text('Max : ${data.daily!.temperature2mMax![index]}ºC'),
+                            margin: const EdgeInsets.all(10),
+                            width: 100,
+                            height: 100,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                color: Colors.black45),
+                            child: displayImage(data
+                                .daily!.precipitationProbabilityMax![index])),
+                        Text(
+                            '${data.daily!.precipitationProbabilityMax![index]}'),
                       ]),
                     ),
                   );
@@ -83,5 +72,22 @@ class _DataListWidgetState extends ConsumerState<DataTempListWidget> {
             return const Center(child: CircularProgressIndicator());
           }
         });
+  }
+
+  Widget displayImage(int chance) {
+    String imagePath = 'assets/images/';
+    if (chance == 0.0) {
+      imagePath += 'Sun.png';
+    } else if (chance <= 25.0) {
+      imagePath += 'Sun_Cloudy_Rain_.png';
+    } else if (chance <= 50.0) {
+      imagePath += 'Light_Rainy_.png';
+    } else if (chance <= 75.0) {
+      imagePath += 'Heavy_Rainy_.png';
+    } else {
+      imagePath += 'Heavy_Rainy_Thunder_.png';
+    }
+
+    return Image.asset(imagePath);
   }
 }

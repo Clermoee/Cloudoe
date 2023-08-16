@@ -2,11 +2,12 @@ import 'package:cloudoe/data/queries.dart';
 import 'package:cloudoe/provider/provider.dart';
 import 'package:cloudoe/style/utils.dart';
 import 'package:cloudoe/widget/city_search.dart';
-import 'package:cloudoe/widget/dataPrecipList.dart';
-import 'package:cloudoe/widget/dataTempList.dart';
+import 'package:cloudoe/widget/displayedData/data_precip_list.dart';
+import 'package:cloudoe/widget/displayedData/data_uv_list.dart';
+import 'package:cloudoe/widget/displayedData/data_temp_list.dart';
+import 'package:cloudoe/widget/displayedData/data_wind_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:geolocator/geolocator.dart';
 
 class HomePage extends ConsumerStatefulWidget {
   const HomePage({super.key});
@@ -20,8 +21,6 @@ class _HomePageState extends ConsumerState<HomePage> {
   void initState() {
     super.initState();
     handleLocationPermission(context);
-
-    print(getUserPosition(context));
   }
 
   @override
@@ -43,13 +42,11 @@ class _HomePageState extends ConsumerState<HomePage> {
               child: DropdownButton<String>(
                 onChanged: (value) {
                   ref.watch(displayedData.notifier).state = value!;
-                  print("Sélectionné: ${ref.watch(displayedData)}");
                 },
                 hint: const Text('Sélectionnez une donnée'),
                 items: [
                   'Température',
                   'Précipitations',
-                  'Nuages',
                   'UV',
                   'Vent',
                 ].map<DropdownMenuItem<String>>(
@@ -72,17 +69,15 @@ class _HomePageState extends ConsumerState<HomePage> {
   Widget displayWidget(String option) {
     switch (option) {
       case 'Température':
-        return DataTempListWidget();
+        return const DataTempListWidget();
       case 'Précipitations':
-        return DataPrecipListWidget();
-      case 'Nuages':
-        return Text('Widget Nuages');
+        return const DataPrecipListWidget();
       case 'UV':
-        return Text('Widget UV');
+        return const DataUVListWidget();
       case 'Vent':
-        return Text('Widget Vent');
+        return const DataWindListWidget();
       default:
-        return SizedBox();
+        return const SizedBox();
     }
   }
 }

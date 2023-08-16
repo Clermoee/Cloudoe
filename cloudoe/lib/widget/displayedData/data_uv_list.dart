@@ -6,14 +6,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
-class DataPrecipListWidget extends ConsumerStatefulWidget {
-  const DataPrecipListWidget({super.key});
+class DataUVListWidget extends ConsumerStatefulWidget {
+  const DataUVListWidget({super.key});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _DataListWidgetState();
 }
 
-class _DataListWidgetState extends ConsumerState<DataPrecipListWidget> {
+class _DataListWidgetState extends ConsumerState<DataUVListWidget> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
@@ -32,10 +32,10 @@ class _DataListWidgetState extends ConsumerState<DataPrecipListWidget> {
                   final currentDayName =
                       DateFormat('EEEE d', 'fr_FR').format(DateTime.now());
                   final tommorowDay = DateFormat('EEEE d', 'fr_FR')
-                      .format(DateTime.now().add(Duration(days: 1)));
+                      .format(DateTime.now().add(const Duration(days: 1)));
                   final dayName = DateFormat('EEEE d', 'fr_FR')
                       .format(ref.watch(next7Days)[index]);
-                  return Container(
+                  return SizedBox(
                     width: 150,
                     child: Card(
                       elevation: 5,
@@ -52,20 +52,15 @@ class _DataListWidgetState extends ConsumerState<DataPrecipListWidget> {
                                 : "AUJOURD'HUI",
                             style: dayTitle),
                         Container(
-                          margin: const EdgeInsets.all(10),
-                          width: 100,
-                          height: 100,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              color: Colors.black45),
-                          child: Image.asset(
-                              data.daily!.precipitationProbabilityMax![index] ==
-                                      0
-                                  ? "assets/images/Sun.png"
-                                  : "assets/images/Cold_.png"),
-                        ),
-                        Text(
-                            '${data.daily!.precipitationProbabilityMax![index]}'),
+                            margin: const EdgeInsets.all(10),
+                            width: 100,
+                            height: 100,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                color: Colors.black45),
+                            child:
+                                displayImage(data.daily!.uvIndexMax![index])),
+                        Text('${data.daily!.uvIndexMax![index]}'),
                       ]),
                     ),
                   );
@@ -76,5 +71,22 @@ class _DataListWidgetState extends ConsumerState<DataPrecipListWidget> {
             return const Center(child: CircularProgressIndicator());
           }
         });
+  }
+
+  Widget displayImage(double uv) {
+    String imagePath = 'assets/images/';
+    if (uv <= 2) {
+      imagePath += 'UV_OK.png';
+    } else if (uv <= 5) {
+      imagePath += 'UV_BOF.png';
+    } else if (uv <= 7) {
+      imagePath += 'UV_BAD.png';
+    } else if (uv <= 11) {
+      imagePath += 'UV_VERY_BAD.png';
+    } else {
+      imagePath += 'UV_DEAD.png';
+    }
+
+    return Image.asset(imagePath);
   }
 }
