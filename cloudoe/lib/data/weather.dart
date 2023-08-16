@@ -139,7 +139,7 @@ class Daily {
   List<double>? showersSum;
   List<double>? snowfallSum;
   List<double>? precipitationHours;
-  List<double>? precipitationProbabilityMax;
+  List<int>? precipitationProbabilityMax;
   List<double>? windspeed10mMax;
   List<double>? winddirection10mDominant;
 
@@ -174,7 +174,7 @@ class Daily {
     snowfallSum = json['snowfall_sum'].cast<double>();
     precipitationHours = json['precipitation_hours'].cast<double>();
     precipitationProbabilityMax =
-        json['precipitation_probability_max'].cast<double>();
+        json['precipitation_probability_max'].cast<int>();
     windspeed10mMax = json['windspeed_10m_max'].cast<double>();
     winddirection10mDominant =
         json['winddirection_10m_dominant'].cast<double>();

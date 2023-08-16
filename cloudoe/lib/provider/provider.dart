@@ -11,3 +11,8 @@ final finalCityGeoProvider =
 final isSearchingCity = StateProvider<bool>((ref) => false);
 
 final weatherDataProvider = StateProvider<WeatherData>((ref) => WeatherData());
+final next7Days = StateProvider<List>((ref) => List.generate(7, (index) {
+      return DateTime.now().add(Duration(days: index));
+    }));
+
+final displayedData = StateProvider<String>((ref) => "Température");
