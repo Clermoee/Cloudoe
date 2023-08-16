@@ -61,7 +61,7 @@ class _DataListWidgetState extends ConsumerState<DataPrecipListWidget> {
                             child: displayImage(data
                                 .daily!.precipitationProbabilityMax![index])),
                         Text(
-                            '${data.daily!.precipitationProbabilityMax![index]}'),
+                            '${data.daily!.precipitationProbabilityMax![index]} %'),
                       ]),
                     ),
                   );

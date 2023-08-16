@@ -87,7 +87,6 @@ class _DataListWidgetState extends ConsumerState<DataGeneralWidget> {
     } else {
       imagePath += 'Heavy_Rainy_Thunder_.png';
     }
-
     return Image.asset(imagePath);
   }
 }
