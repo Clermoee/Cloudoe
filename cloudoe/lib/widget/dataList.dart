@@ -29,8 +29,15 @@ class _DataListWidgetState extends ConsumerState<DataListWidget> {
                 itemBuilder: (BuildContext context, int index) {
                   return Card(
                     child: Column(children: [
-                      Text(
-                          'Jour ${index + 1}: ${data.daily!.temperature2mMax![index]}ºC'),
+                      SizedBox(
+                        width: 100,
+                        height: 100,
+                        child: Image.asset(
+                            data.daily!.temperature2mMax![index] >= 27
+                                ? "assets/images/Hot_.jpg"
+                                : "assets/images/Cold_.jpg"),
+                      ),
+                      Text('${data.daily!.temperature2mMax![index]}ºC'),
                     ]),
                   );
                 },
